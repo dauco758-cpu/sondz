@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HOANGSON - SƠN LỌ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --main: #ff2d8d; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --border: rgba(255, 255, 255, 0.1); --admin: #00ff88; --card-color: #ff7e00; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lexend', sans-serif; transition: 0.3s; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        /* Screens & Modals */
+        #introScreen, #authScreen, .modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(15px); background: rgba(15, 23, 42, 0.95); padding: 15px; }
+        .box { background: var(--card); padding: 25px; border-radius: 25px; border: 2px solid var(--main); text-align: center; width: 100%; max-width: 380px; box-shadow: 0 0 30px rgba(255, 45, 141, 0.2); }
+        
+        /* Header & Navigation */
+        header { height: 70px; background: var(--card); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 3px solid var(--main); position: sticky; top: 0; z-index: 1000; }
+        .wallet { background: var(--main); padding: 8px 15px; border-radius: 20px; color: #fff; font-weight: 900; font-size: 14px; box-shadow: 0 0 10px rgba(255,45,141,0.5); }
+        
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .p-card { background: var(--card); border-radius: 25px; padding: 25px; border: 2px solid var(--border); border-top: 6px solid var(--main); box-shadow: 0 10px 20px rgba(0,0,0,0.2); position: relative; }
+        
+        /* Side Menu */
+        #menu { position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px; height: 100%; background: var(--card); z-index: 2000; padding: 20px; border-right: 4px solid var(--main); overflow-y: auto; }
+        .section { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .sec-title { font-size: 11px; font-weight: 900; color: var(--main); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Form Elements */
+        input, select, button, textarea { width: 100%; padding: 15px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; font-size: 15px; font-weight: bold; }
+        .btn-main { background: var(--main); border: none; font-weight: 900; cursor: pointer; color: white; text-transform: uppercase; box-shadow: 0 5px 15px rgba(255, 45, 141, 0.4); }
+        .btn-main:active { transform: scale(0.95); }
+        
+        /* UI Components */
+        .noti-item { font-size: 11px; padding: 12px; border-bottom: 1px solid #333; color: var(--admin); background: rgba(0,255,136,0.05); margin-bottom: 8px; border-radius: 10px; }
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1500; }
+        .stock-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .s-box { flex: 1; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 12px; text-align: center; border: 1px solid var(--border); font-size: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="introScreen"><div class="box">
+        <h1 style="color:var(--main); font-weight: 900; font-size: 35px;">HOANGSON</h1>
+        <p style="margin: 10px 0; opacity: 0.8; font-size: 14px;">Hệ thống cung cấp Key & Acc VIP</p>
+        <button class="btn-main" style="margin-top: 20px;" onclick="goToAuth()">BẮT ĐẦU NGAY</button>
+    </div></div>
+
+    <div id="authScreen" style="display:none"><div class="box">
+        <h2 id="authTitle" style="color:var(--main); margin-bottom:20px;">ĐĂNG NHẬP</h2>
+        <input id="uIn" placeholder="Tên tài khoản">
+        <input type="password" id="pIn" placeholder="Mật khẩu">
+        <button class="btn-main" onclick="handleAuth()">XÁC NHẬN</button>
+        <div style="display:flex; justify-content: space-between; margin-top:15px; font-size:12px;">
+            <p onclick="switchAuth()" id="switchText" style="cursor:pointer; opacity:0.8;">Chưa có nick? <b style="color:var(--main)">Đăng ký</b></p>
+            <p onclick="forgotPass()" style="cursor:pointer; color: #888;">Quên mật khẩu?</p>
+        </div>
+    </div></div>
+
+    <div id="app" style="display:none">
+        <header>
+            <div onclick="toggleM(true)" style="font-size:32px; cursor:pointer; color:var(--main)">☰</div>
+            <div style="font-weight:900; font-size: 20px; letter-spacing: 1px;">HOANGSON
